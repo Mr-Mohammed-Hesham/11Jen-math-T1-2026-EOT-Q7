@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Corresponding Parts of Similar Triangles - رياضيات 11 عام | Mr. Mohammed Hesham</title>
+<meta name="description" content="امتحان تفاعلي عن استخدام نسب أجزاء المثلثات المتشابهة (المتوسطات والارتفاعات) - رياضيات صف 11 عام">
+<meta name="author" content="Mr. Mohammed Hesham">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%); }
+body.en-mode { font-family: 'Inter', sans-serif; direction: ltr; }
+.arabic-math { font-family: 'Amiri', 'Cairo', serif; }
+.correct { background-color: #dcfce7 !important; border-color: #16a34a !important; }
+.incorrect { background-color: #fee2e2 !important; border-color: #dc2626 !important; }
+.timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.7; } }
+@media print { .no-print { display: none !important; } }
+.success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+.grade-excellent { background: #dcfce7; color: #166534; }
+.grade-good { background: #fef3c7; color: #92400e; }
+.grade-pass { background: #dbeafe; color: #1e40af; }
+.grade-fail { background: #fee2e2; color: #991b1b; }
+.lang-switch { position: fixed; top: 16px; left: 16px; z-index: 100; background: white; padding: 6px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; gap: 4px; border: 2px solid #e11d48; }
+body.en-mode .lang-switch { left: auto; right: 16px; }
+.lang-btn { padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; border: none; font-size: 0.875rem; background: transparent; color: #6b7280; }
+.lang-btn.active { background: #e11d48; color: white; }
+.shuffle-badge { display: inline-block; background: linear-gradient(135deg, #e11d48, #be123c); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 8px; }
+body.en-mode .shuffle-badge { margin-right: 0; margin-left: 8px; }
+.math-display { display: inline-block; direction: ltr; font-family: 'Amiri', serif; font-size: 1.15em; padding: 2px 8px; background: #ffe4e6; border-radius: 4px; margin: 2px; color: #9f1239; font-weight: 700; }
+.save-indicator { position: fixed; bottom: 20px; left: 20px; z-index: 200; background: #10b981; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+body.en-mode .save-indicator { left: auto; right: 20px; }
+.save-indicator.show { opacity: 1; }
+.formula-box { background: #ffe4e6; border: 2px solid #e11d48; border-radius: 8px; padding: 12px; margin: 10px 0; font-family: 'Amiri', serif; direction: ltr; text-align: center; }
+.svg-graph { display: block; margin: 12px auto; background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 8px; max-width: 100%; }
+.graph-container { text-align: center; margin: 10px 0; }
+.module-badge { display: inline-block; padding: 4px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; }
+.module-1 { background: #ffe4e6; color: #9f1239; }
+.module-2 { background: #dbeafe; color: #1e40af; }
+.module-3 { background: #ecfdf5; color: #065f46; }
+.module-4 { background: #fef3c7; color: #92400e; }
+.module-5 { background: #ede9fe; color: #5b21b6; }
+.module-6 { background: #cffafe; color: #155e75; }
+</style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+<div class="lang-switch no-print">
+<button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">عربي</button>
+<button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+</div>
+
+<div id="saveIndicator" class="save-indicator">💾 <span data-ar="تم الحفظ" data-en="Saved">تم الحفظ</span></div>
+
+<div id="timer-container" class="max-w-5xl mx-auto mb-4 text-center no-print">
+<div class="bg-white p-4 rounded-2xl shadow-lg inline-block border-2 border-rose-100">
+<span class="text-gray-600 ml-2">⏰ <span data-ar="الوقت المتبقي:" data-en="Time Left:">الوقت المتبقي:</span></span>
+<span id="timer" class="text-2xl font-bold text-rose-700 font-mono">45:00</span>
+<span class="shuffle-badge">📐 <span data-ar="أجزاء المتشابهة" data-en="Similar Parts">أجزاء المتشابهة</span> - 30 <span data-ar="سؤال" data-en="Questions">سؤال</span></span>
+</div>
+</div>
+
+<div class="max-w-5xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+<button onclick="toggleAnswers()" class="bg-rose-700 hover:bg-rose-800 text-white px-5 py-2 rounded-xl font-medium transition shadow">👀 <span data-ar="إظهار/إخفاء الإجابات" data-en="Show/Hide Answers">إظهار/إخفاء الإجابات</span></button>
+<button onclick="window.print()" class="bg-gray-700 hover:bg-gray-900 text-white px-5 py-2 rounded-xl font-medium transition shadow">🖨️ <span data-ar="طباعة" data-en="Print">طباعة</span></button>
+<button onclick="reshuffleExam()" class="bg-gradient-to-r from-rose-700 to-pink-600 hover:from-rose-800 hover:to-pink-700 text-white px-5 py-2 rounded-xl font-medium transition shadow">🔄 <span data-ar="أسئلة جديدة" data-en="New Questions">أسئلة جديدة</span></button>
+<button onclick="clearProgress()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-medium transition shadow">🗑️ <span data-ar="مسح التقدم" data-en="Clear Progress">مسح التقدم</span></button>
+</div>
+
+<header class="max-w-5xl mx-auto bg-white p-8 rounded-3xl shadow-2xl mb-8 border-4 border-rose-500">
+<div class="text-center">
+<div class="inline-block bg-rose-700 text-white px-6 py-2 rounded-full text-sm font-bold mb-4">MATH GRADE 11 GENERAL - QUESTION 7</div>
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">📐 <span data-ar="استخدام نسب أجزاء المثلثات المتشابهة (المتوسطات)" data-en="Using Ratios of Corresponding Parts of Similar Triangles (Medians)">استخدام نسب أجزاء المثلثات المتشابهة (المتوسطات)</span></h1>
+<h2 class="text-xl text-rose-700 font-semibold mb-2"><span data-ar="الوحدة 1 - الدرس 1-5: أجزاء المثلثات المتشابهة | ص 48 (1 - 2)" data-en="Unit 1 - Lesson 1-5: Parts of Similar Triangles | Page 48 (1-2)">الوحدة 1 - الدرس 1-5: أجزاء المثلثات المتشابهة | ص 48 (1 - 2)</span></h2>
+<p class="text-gray-600 mb-4"><span data-ar="المتوسطات والارتفاعات ومنصفات الزوايا والمحيطات تتناسب مع الأضلاع، والمساحات مع مربع النسبة" data-en="Medians, altitudes, bisectors & perimeters scale with sides; areas scale with the square">المتوسطات والارتفاعات ومنصفات الزوايا والمحيطات تتناسب مع الأضلاع، والمساحات مع مربع النسبة</span></p>
+<p class="text-sm text-green-600 font-semibold">💾 <span data-ar="يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 6 أقسام" data-en="Auto-saved - 30 questions in 6 sections">يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 6 أقسام</span></p>
+</div>
+<div class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+<span>📅 <span data-ar="التاريخ:" data-en="Date:">التاريخ:</span> <input type="text" id="examDate" class="border-b-2 border-rose-300 bg-transparent w-32 text-center"></span>
+<span>😊 <span data-ar="الاسم:" data-en="Name:">الاسم:</span> <input type="text" id="studentName" class="border-b-2 border-rose-300 bg-transparent w-40 text-center" data-placeholder-ar="اكتب اسمك" data-placeholder-en="Your name" placeholder="اكتب اسمك"></span>
+<span>🏫 <span data-ar="الشعبة:" data-en="Class:">الشعبة:</span> <input type="text" id="studentClass" class="border-b-2 border-rose-300 bg-transparent w-32 text-center" data-placeholder-ar="الشعبة" data-placeholder-en="Class" placeholder="الشعبة"></span>
+<span>⏰ <span data-ar="المدة: 45 دقيقة" data-en="Duration: 45 min">المدة: 45 دقيقة</span></span>
+<span>📊 <span data-ar="المجموع: 100 درجة" data-en="Total: 100 points">المجموع: 100 درجة</span></span>
+</div>
+</header>
+
+<div class="max-w-5xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-lg border-2 border-rose-200 no-print">
+<h3 class="font-bold text-lg mb-3 text-rose-800 text-center">📐 <span data-ar="نسب الأجزاء المتناظرة في المثلثين المتشابهين" data-en="Ratios of Corresponding Parts in Similar Triangles">نسب الأجزاء المتناظرة في المثلثين المتشابهين</span></h3>
+<div class="grid md:grid-cols-4 gap-3 text-sm">
+<div class="formula-box"><strong><span data-ar="الارتفاعات:" data-en="Altitudes:">الارتفاعات:</span></strong><br><span class="math-display">h₁/h₂ = k</span></div>
+<div class="formula-box"><strong><span data-ar="المتوسطات:" data-en="Medians:">المتوسطات:</span></strong><br><span class="math-display">m₁/m₂ = k</span></div>
+<div class="formula-box"><strong><span data-ar="المحيطات:" data-en="Perimeters:">المحيطات:</span></strong><br><span class="math-display">P₁/P₂ = k</span></div>
+<div class="formula-box"><strong><span data-ar="المساحات:" data-en="Areas:">المساحات:</span></strong><br><span class="math-display">A₁/A₂ = k²</span></div>
+</div>
+<div id="method-holder" class="mt-2"></div>
+</div>
+
+<main class="max-w-5xl mx-auto space-y-8" id="exam-content"></main>
+
+<div class="text-center no-print pb-8 mt-8">
+<button onclick="gradeExam()" class="bg-gradient-to-r from-rose-700 to-pink-600 hover:from-rose-800 hover:to-pink-700 text-white text-lg px-12 py-4 rounded-2xl font-bold shadow-xl transition transform hover:scale-105">🎯 <span data-ar="صحح إجاباتي!" data-en="Grade My Exam!">صحح إجاباتي!</span></button>
+</div>
+
+<div id="results-panel" class="max-w-5xl mx-auto mt-8 bg-white p-8 rounded-3xl shadow-2xl border-4 border-rose-500 hidden no-print">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">🏆 <span data-ar="نتيجتك يا بطل!" data-en="Your Result, Champion!">نتيجتك يا بطل!</span> 🏆</h2>
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+<div class="bg-rose-50 p-4 rounded-xl text-center"><p>😊 <span data-ar="الاسم" data-en="Name">الاسم</span></p><p id="res-name" class="font-bold text-xl text-rose-700">-</p></div>
+<div class="bg-pink-50 p-4 rounded-xl text-center"><p>📅 <span data-ar="التاريخ" data-en="Date">التاريخ</span></p><p id="res-date" class="font-bold text-xl text-pink-700">-</p></div>
+<div class="bg-rose-50 p-4 rounded-xl text-center"><p>🌟 <span data-ar="المجموع" data-en="Total">المجموع</span></p><p id="res-total" class="font-bold text-3xl text-rose-700">0 / 100</p></div>
+</div>
+<div class="text-center mb-6">
+<span id="success-badge" class="success-badge grade-excellent">-</span>
+<p id="success-percent" class="text-4xl font-bold text-rose-700 mt-2">0%</p>
+<p class="text-sm text-gray-500"><span data-ar="نسبة النجاح" data-en="Success Rate">نسبة النجاح</span></p>
+</div>
+<div class="bg-gray-50 p-6 rounded-xl mb-6">
+<h3 class="font-bold text-lg mb-4 text-gray-800">📊 <span data-ar="أداؤك في كل قسم:" data-en="Your Performance by Section:">أداؤك في كل قسم:</span></h3>
+<div class="space-y-3" id="sections-performance"></div>
+</div>
+<div class="text-center">
+<button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-rose-700 to-pink-600 text-white text-lg px-8 py-3 rounded-2xl font-bold shadow-xl transition">📧 <span data-ar="أرسل النتيجة للمعلم" data-en="Send Result to Teacher">أرسل النتيجة للمعلم</span></button>
+<p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+</div>
+</div>
+
+<footer class="max-w-5xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+© Corresponding Parts of Similar Triangles - Grade 11 General | Mr. Mohammed Hesham 📐
+</footer>
+
+<script>
+const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+const SERVICE_ID = "service_w15m64i";
+const TEMPLATE_ID = "template_5b0u2tq";
+const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+emailjs.init(PUBLIC_KEY);
+
+const STORAGE_KEY = 'similar_parts_grade11_v1';
+const TOTAL_TIME = 2700;
+const TOTAL_QUESTIONS = 30;
+const TOTAL_SECTIONS = 6;
+const QUESTIONS_PER_SECTION = 5;
+
+let currentSeed = null, answersVisible = false, saveIndicatorTimeout = null;
+let currentLang = 'ar', timeRemaining = TOTAL_TIME, timerInterval;
+let examData, correctAnswersMap = {}, rng = null;
+
+function mulberry32(a){return function(){var t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+function showSaveIndicator(){const i=document.getElementById('saveIndicator');i.classList.add('show');if(saveIndicatorTimeout)clearTimeout(saveIndicatorTimeout);saveIndicatorTimeout=setTimeout(()=>i.classList.remove('show'),1500)}
+function saveState(s=true){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({seed:currentSeed,lang:currentLang,studentName:document.getElementById('studentName').value,studentClass:document.getElementById('studentClass').value,examDate:document.getElementById('examDate').value,answers:getSelectedAnswers(),timeRemaining:timeRemaining,answersVisible:answersVisible,savedAt:Date.now()}));if(s)showSaveIndicator()}catch(e){console.error(e)}}
+function loadState(){try{const s=localStorage.getItem(STORAGE_KEY);return s?JSON.parse(s):null}catch(e){return null}}
+function getSelectedAnswers(){const a={};for(let i=0;i<TOTAL_QUESTIONS;i++){const s=document.querySelector('input[name="q'+i+'"]:checked');if(s)a[i]=s.value}return a}
+function restoreAnswers(a){if(!a)return;for(const[i,v]of Object.entries(a)){const r=document.querySelector('input[name="q'+i+'"][value="'+v+'"]');if(r)r.checked=true}}
+function clearProgress(){if(confirm(currentLang==='ar'?'⚠️ هل أنت متأكد من مسح كل التقدم؟':'⚠️ Clear all progress?')){localStorage.removeItem(STORAGE_KEY);location.reload()}}
+function setupAnswerListeners(){document.getElementById('exam-content').addEventListener('change',e=>{if(e.target.type==='radio')saveState()})}
+function setupInputListeners(){['studentName','studentClass','examDate'].forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('input',()=>saveState(false));el.addEventListener('blur',()=>saveState())}})}
+
+// ==================== SVG DIAGRAMS ====================
+const svgGraphs = {
+fig1_medians: `<svg class="svg-graph" width="480" height="290" viewBox="0 0 480 290" xmlns="http://www.w3.org/2000/svg">
+<rect x="5" y="5" width="470" height="280" rx="12" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+<text x="240" y="26" text-anchor="middle" font-size="13" fill="#9f1239" font-weight="bold">التمرين 1: مثلثان متشابهان — المتوسطان يتناسبان مع الضلعين</text>
+<polygon points="70,165 150,165 110,75" fill="#fecdd3" fill-opacity="0.5" stroke="#be123c" stroke-width="2.5"/>
+<line x1="110" y1="75" x2="110" y2="165" stroke="#7c3aed" stroke-width="2.5"/>
+<text x="100" y="125" font-size="12" fill="#6d28d9" font-family="'Amiri',serif" font-weight="bold">x</text>
+<text x="110" y="182" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">12</text>
+<line x1="88" y1="161" x2="92" y2="169" stroke="#16a34a" stroke-width="2"/><line x1="128" y1="161" x2="132" y2="169" stroke="#16a34a" stroke-width="2"/>
+<polygon points="270,175 390,175 330,50" fill="#fecdd3" fill-opacity="0.4" stroke="#be123c" stroke-width="2.5"/>
+<line x1="330" y1="50" x2="330" y2="175" stroke="#7c3aed" stroke-width="2.5"/>
+<text x="338" y="118" font-size="12" fill="#6d28d9" font-family="'Amiri',serif" font-weight="bold">10</text>
+<text x="330" y="192" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">15</text>
+<line x1="296" y1="171" x2="300" y2="179" stroke="#16a34a" stroke-width="2"/><line x1="293" y1="175" x2="297" y2="183" stroke="#16a34a" stroke-width="2"/>
+<line x1="356" y1="171" x2="360" y2="179" stroke="#16a34a" stroke-width="2"/><line x1="353" y1="175" x2="357" y2="183" stroke="#16a34a" stroke-width="2"/>
+<rect x="40" y="205" width="400" height="62" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+<text x="240" y="225" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">نسبة المتوسطين = نسبة الضلعين</text>
+<text x="240" y="245" text-anchor="middle" font-size="13" fill="#92400e" font-family="'Amiri',serif" font-weight="bold">x/10 = 12/15  ⇒  x = 120/15 = 8</text>
+<text x="240" y="261" text-anchor="middle" font-size="9" fill="#92400e">العلامات الخضراء: المتوسط ينصّف الضلع (جزآن متطابقان)</text>
+</svg>`,
+
+fig2_altitudes: `<svg class="svg-graph" width="480" height="290" viewBox="0 0 480 290" xmlns="http://www.w3.org/2000/svg">
+<rect x="5" y="5" width="470" height="280" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="240" y="26" text-anchor="middle" font-size="13" fill="#1e40af" font-weight="bold">التمرين 2: الارتفاعان المتناظران يتناسبان مع الضلعين</text>
+<polygon points="70,170 160,170 120,80" fill="#bfdbfe" fill-opacity="0.5" stroke="#1d4ed8" stroke-width="2.5"/>
+<line x1="120" y1="80" x2="120" y2="170" stroke="#dc2626" stroke-width="2.5"/>
+<rect x="120" y="160" width="9" height="9" fill="none" stroke="#dc2626" stroke-width="1.5"/>
+<text x="108" y="130" font-size="12" fill="#dc2626" font-family="'Amiri',serif" font-weight="bold">x</text>
+<text x="148" y="130" font-size="11" fill="#065f46" font-weight="bold">8</text>
+<polygon points="280,75 370,75 325,165" fill="#bfdbfe" fill-opacity="0.4" stroke="#1d4ed8" stroke-width="2.5"/>
+<line x1="325" y1="165" x2="325" y2="75" stroke="#dc2626" stroke-width="2.5"/>
+<rect x="316" y="75" width="9" height="9" fill="none" stroke="#dc2626" stroke-width="1.5"/>
+<text x="333" y="125" font-size="12" fill="#dc2626" font-family="'Amiri',serif" font-weight="bold">9</text>
+<text x="356" y="125" font-size="11" fill="#065f46" font-weight="bold">6</text>
+<rect x="40" y="205" width="400" height="62" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+<text x="240" y="225" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">نسبة الارتفاعين = نسبة الضلعين المتناظرين</text>
+<text x="240" y="245" text-anchor="middle" font-size="13" fill="#92400e" font-family="'Amiri',serif" font-weight="bold">x/9 = 8/6  ⇒  x = 72/6 = 12</text>
+<text x="240" y="261" text-anchor="middle" font-size="9" fill="#92400e">المربع الأحمر الصغير = زاوية قائمة عند قدم الارتفاع</text>
+</svg>`,
+
+fig_rules: `<svg class="svg-graph" width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<rect x="5" y="5" width="490" height="290" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+<text x="250" y="26" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">📋 جدول النسب في المثلثين المتشابهين (معامل المقياس k)</text>
+<g font-size="11" text-anchor="middle" font-family="'Amiri',serif">
+<rect x="40" y="42" width="200" height="32" fill="#d1fae5" stroke="#10b981" stroke-width="2"/><text x="140" y="63" fill="#065f46" font-weight="bold">الجزء المتناظر</text>
+<rect x="240" y="42" width="100" height="32" fill="#d1fae5" stroke="#10b981" stroke-width="2"/><text x="290" y="63" fill="#065f46" font-weight="bold">النسبة</text>
+<rect x="340" y="42" width="120" height="32" fill="#d1fae5" stroke="#10b981" stroke-width="2"/><text x="400" y="63" fill="#065f46" font-weight="bold">مثال k = 2/3</text>
+<rect x="40" y="74" width="200" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="140" y="94" fill="#065f46">الأضلاع المتناظرة</text>
+<rect x="240" y="74" width="100" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="290" y="94" fill="#065f46" font-weight="bold">k</text>
+<rect x="340" y="74" width="120" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="400" y="94" fill="#065f46">2/3</text>
+<rect x="40" y="104" width="200" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="140" y="124" fill="#065f46">الارتفاعات المتناظرة</text>
+<rect x="240" y="104" width="100" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="290" y="124" fill="#065f46" font-weight="bold">k</text>
+<rect x="340" y="104" width="120" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="400" y="124" fill="#065f46">2/3</text>
+<rect x="40" y="134" width="200" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="140" y="154" fill="#065f46">المتوسطات المتناظرة</text>
+<rect x="240" y="134" width="100" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="290" y="154" fill="#065f46" font-weight="bold">k</text>
+<rect x="340" y="134" width="120" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="400" y="154" fill="#065f46">2/3</text>
+<rect x="40" y="164" width="200" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="140" y="184" fill="#065f46">منصفات الزوايا المتناظرة</text>
+<rect x="240" y="164" width="100" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="290" y="184" fill="#065f46" font-weight="bold">k</text>
+<rect x="340" y="164" width="120" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="400" y="184" fill="#065f46">2/3</text>
+<rect x="40" y="194" width="200" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="140" y="214" fill="#065f46">المحيطان</text>
+<rect x="240" y="194" width="100" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="290" y="214" fill="#065f46" font-weight="bold">k</text>
+<rect x="340" y="194" width="120" height="30" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/><text x="400" y="214" fill="#065f46">2/3</text>
+<rect x="40" y="224" width="200" height="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="140" y="244" fill="#92400e" font-weight="bold">المساحتان</text>
+<rect x="240" y="224" width="100" height="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="290" y="244" fill="#92400e" font-weight="bold">k²</text>
+<rect x="340" y="224" width="120" height="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/><text x="400" y="244" fill="#92400e" font-weight="bold">4/9</text>
+</g>
+<rect x="40" y="262" width="420" height="26" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+<text x="250" y="280" text-anchor="middle" font-size="10" fill="#991b1b" font-weight="bold">⚠️ المساحة وحدها تُربّع — وكل ما عداها بنسبة k مباشرة</text>
+</svg>`,
+
+fig_bisect: `<svg class="svg-graph" width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
+<rect x="5" y="5" width="470" height="250" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+<text x="240" y="26" text-anchor="middle" font-size="13" fill="#5b21b6" font-weight="bold">منصفا زاويتين متناظرين يتناسبان مع الضلعين</text>
+<polygon points="70,160 150,160 110,70" fill="#ddd6fe" fill-opacity="0.5" stroke="#6d28d9" stroke-width="2.5"/>
+<line x1="110" y1="70" x2="118" y2="160" stroke="#dc2626" stroke-width="2.5"/>
+<path d="M 103 84 A 16 16 0 0 0 117 84" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<path d="M 105 90 A 12 12 0 0 0 115 90" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<text x="98" y="125" font-size="12" fill="#dc2626" font-family="'Amiri',serif" font-weight="bold">4</text>
+<text x="110" y="177" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">6</text>
+<polygon points="280,165 400,165 340,60" fill="#ddd6fe" fill-opacity="0.4" stroke="#6d28d9" stroke-width="2.5"/>
+<line x1="340" y1="60" x2="352" y2="165" stroke="#dc2626" stroke-width="2.5"/>
+<path d="M 331 76 A 18 18 0 0 0 349 76" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<path d="M 333 83 A 14 14 0 0 0 347 83" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+<text x="328" y="125" font-size="12" fill="#dc2626" font-family="'Amiri',serif" font-weight="bold">x</text>
+<text x="340" y="182" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">9</text>
+<rect x="60" y="196" width="360" height="46" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="240" y="215" text-anchor="middle" font-size="12" fill="#166534" font-family="'Amiri',serif" font-weight="bold">4/x = 6/9  ⇒  6x = 36  ⇒  x = 6</text>
+<text x="240" y="233" text-anchor="middle" font-size="9" fill="#166534">القوسان الخضراوان = زاوية منصوفة إلى نصفين متطابقين</text>
+</svg>`,
+
+fig_perim: `<svg class="svg-graph" width="480" height="240" viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg">
+<rect x="5" y="5" width="470" height="230" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+<text x="240" y="26" text-anchor="middle" font-size="13" fill="#92400e" font-weight="bold">المحيطان بنسبة الأضلاع نفسها</text>
+<polygon points="70,150 140,150 105,85" fill="#fde68a" fill-opacity="0.6" stroke="#d97706" stroke-width="2.5"/>
+<text x="105" y="170" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">P = 14</text>
+<polygon points="270,160 410,160 340,55" fill="#fde68a" fill-opacity="0.4" stroke="#d97706" stroke-width="2.5"/>
+<text x="340" y="180" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">P = 35</text>
+<rect x="60" y="192" width="360" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="240" y="209" text-anchor="middle" font-size="11" fill="#166534" font-weight="bold">14/35 = 2/5 = نسبة الأضلاع = نسبة المتوسطات</text>
+<text x="240" y="226" text-anchor="middle" font-size="10" fill="#166534">متوسط الأول 8 ⇒ متوسط الثاني = 8 × 5/2 = 20؟ لا: 8 ÷ 2 × 5 = 20</text>
+</svg>`,
+
+fig_areas: `<svg class="svg-graph" width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
+<rect x="5" y="5" width="470" height="250" rx="12" fill="#cffafe" stroke="#0891b2" stroke-width="2"/>
+<text x="240" y="26" text-anchor="middle" font-size="13" fill="#155e75" font-weight="bold">المساحتان بنسبة k² (مربع نسبة الأضلاع)</text>
+<g stroke="#0891b2" stroke-width="1"><rect x="60" y="110" width="30" height="30" fill="#a5f3fc"/><rect x="90" y="110" width="30" height="30" fill="#a5f3fc"/><rect x="60" y="140" width="30" height="30" fill="#a5f3fc"/><rect x="90" y="140" width="30" height="30" fill="#a5f3fc"/></g>
+<polygon points="60,170 120,170 90,110" fill="none" stroke="#0e7490" stroke-width="2.5"/>
+<text x="90" y="190" text-anchor="middle" font-size="10" fill="#155e75" font-weight="bold">مساحة = 4 وحدات (ضلع 2)</text>
+<g stroke="#0891b2" stroke-width="1"><rect x="260" y="80" width="30" height="30" fill="#67e8f9"/><rect x="290" y="80" width="30" height="30" fill="#67e8f9"/><rect x="320" y="80" width="30" height="30" fill="#67e8f9"/><rect x="260" y="110" width="30" height="30" fill="#67e8f9"/><rect x="290" y="110" width="30" height="30" fill="#67e8f9"/><rect x="320" y="110" width="30" height="30" fill="#67e8f9"/><rect x="260" y="140" width="30" height="30" fill="#67e8f9"/><rect x="290" y="140" width="30" height="30" fill="#67e8f9"/><rect x="320" y="140" width="30" height="30" fill="#67e8f9"/></g>
+<polygon points="260,170 350,170 305,80" fill="none" stroke="#0e7490" stroke-width="2.5"/>
+<text x="305" y="190" text-anchor="middle" font-size="10" fill="#155e75" font-weight="bold">مساحة = 9 وحدات (ضلع 3)</text>
+<rect x="60" y="205" width="360" height="40" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+<text x="240" y="222" text-anchor="middle" font-size="12" fill="#92400e" font-family="'Amiri',serif" font-weight="bold">k = 2/3  ⇒  A₁/A₂ = 4/9</text>
+<text x="240" y="239" text-anchor="middle" font-size="9" fill="#92400e">لاحظ: الارتفاعات والمحيطات 2:3 لكن المساحات 4:9</text>
+</svg>`
+};
+
+// ==================== EXAM DATA ====================
+const originalExamData = {
+sections: [
+{ id:'s1', title:{ar:'🔹 القسم 1: المتوسطات المتناظرة (مثل 1) (Q1-Q5)',en:'🔹 Section 1: Corresponding Medians (like 1) (Q1-Q5)'}, questions:[
+{ q:{ar:'<strong>السؤال 1 (تمرين 1):</strong> المثلثان متشابهان. جد x (متوسطا المثلثين x و 10، والضلعان المتناظران 12 و 15).',en:'<strong>Q1 (Ex. 1):</strong> The triangles are similar. Find x (medians x and 10; corresponding sides 12 and 15).'},
+  svg: svgGraphs.fig1_medians,
+  options:[{ar:'<span class="math-display">x = 12.5</span>',en:'<span class="math-display">x = 12.5</span>'},{ar:'<span class="math-display">x = 8</span>',en:'<span class="math-display">x = 8</span>'},{ar:'<span class="math-display">x = 6</span>',en:'<span class="math-display">x = 6</span>'},{ar:'<span class="math-display">x = 18</span>',en:'<span class="math-display">x = 18</span>'}],
+  correct:1, answer:{ar:'نسبة المتوسطين = نسبة الضلعين: x/10 = 12/15 ⇒ x = 120/15 = 8',en:'x/10 = 12/15 ⇒ x = 8'} },
+{ q:{ar:'<strong>السؤال 2:</strong> مثلثان متشابهان: متوسط الأول 6 وضلعه المتناظر 9، ومتوسط الثاني m وضلعه 12. جد m.',en:'<strong>Q2:</strong> Similar triangles: first median 6 with side 9; second median m with side 12. Find m.'},
+  options:[{ar:'<span class="math-display">6</span>',en:'<span class="math-display">6</span>'},{ar:'<span class="math-display">8</span>',en:'<span class="math-display">8</span>'},{ar:'<span class="math-display">9</span>',en:'<span class="math-display">9</span>'},{ar:'<span class="math-display">4.5</span>',en:'<span class="math-display">4.5</span>'}],
+  correct:1, answer:{ar:'6/m = 9/12 ⇒ 9m = 72 ⇒ m = 8',en:'6/m = 9/12 ⇒ m = 8'} },
+{ q:{ar:'<strong>السؤال 3:</strong> مثلثان متشابهان بمتوسطين 5 و 8. إذا كان ضلع الأول المناظر 10 فما الضلع المناظر في الثاني؟',en:'<strong>Q3:</strong> Similar triangles with medians 5 and 8. If the first corresponding side is 10, the second is?'},
+  options:[{ar:'<span class="math-display">16</span>',en:'<span class="math-display">16</span>'},{ar:'<span class="math-display">6.25</span>',en:'<span class="math-display">6.25</span>'},{ar:'<span class="math-display">13</span>',en:'<span class="math-display">13</span>'},{ar:'<span class="math-display">20</span>',en:'<span class="math-display">20</span>'}],
+  correct:0, answer:{ar:'5/8 = 10/x ⇒ 5x = 80 ⇒ x = 16',en:'5/8 = 10/x ⇒ x = 16'} },
+{ q:{ar:'<strong>السؤال 4:</strong> نسبة تشابه مثلثين 3:4. إذا كان متوسط الأول 9 فمتوسط الثاني:',en:'<strong>Q4:</strong> Similarity ratio 3:4. If the first median is 9, the second median is:'},
+  options:[{ar:'<span class="math-display">6.75</span>',en:'<span class="math-display">6.75</span>'},{ar:'<span class="math-display">16</span>',en:'<span class="math-display">16</span>'},{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'},{ar:'<span class="math-display">7</span>',en:'<span class="math-display">7</span>'}],
+  correct:2, answer:{ar:'9/m = 3/4 ⇒ 3m = 36 ⇒ m = 12',en:'9/m = 3/4 ⇒ m = 12'} },
+{ q:{ar:'<strong>السؤال 5:</strong> مثلثان متشابهان أضلاعهما المتناظرة 6 و 10. إذا كان متوسط الأول 4.5 فمتوسط الثاني:',en:'<strong>Q5:</strong> Similar triangles with corresponding sides 6 and 10. First median 4.5; second median?'},
+  options:[{ar:'<span class="math-display">7.5</span>',en:'<span class="math-display">7.5</span>'},{ar:'<span class="math-display">2.7</span>',en:'<span class="math-display">2.7</span>'},{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'},{ar:'<span class="math-display">5</span>',en:'<span class="math-display">5</span>'}],
+  correct:0, answer:{ar:'4.5/m = 6/10 ⇒ 6m = 45 ⇒ m = 7.5',en:'4.5/m = 6/10 ⇒ m = 7.5'} }
+]},
+{ id:'s2', title:{ar:'🔹 القسم 2: الارتفاعات المتناظرة (مثل 2) (Q6-Q10)',en:'🔹 Section 2: Corresponding Altitudes (like 2) (Q6-Q10)'}, questions:[
+{ q:{ar:'<strong>السؤال 6 (تمرين 2):</strong> المثلثان متشابهان. جد x (ارتفاعاهما x و 9، والضلعان المتناظران 8 و 6).',en:'<strong>Q6 (Ex. 2):</strong> The triangles are similar. Find x (altitudes x and 9; corresponding sides 8 and 6).'},
+  svg: svgGraphs.fig2_altitudes,
+  options:[{ar:'<span class="math-display">x = 6.75</span>',en:'<span class="math-display">x = 6.75</span>'},{ar:'<span class="math-display">x = 4.5</span>',en:'<span class="math-display">x = 4.5</span>'},{ar:'<span class="math-display">x = 12</span>',en:'<span class="math-display">x = 12</span>'},{ar:'<span class="math-display">x = 10.5</span>',en:'<span class="math-display">x = 10.5</span>'}],
+  correct:2, answer:{ar:'x/9 = 8/6 ⇒ 6x = 72 ⇒ x = 12',en:'x/9 = 8/6 ⇒ x = 12'} },
+{ q:{ar:'<strong>السؤال 7:</strong> مثلثان متشابهان: ارتفاع الأول 5 وضلعه 8، وارتفاع الثاني h وضلعه 12. جد h.',en:'<strong>Q7:</strong> Similar triangles: first altitude 5 with side 8; second altitude h with side 12. Find h.'},
+  options:[{ar:'<span class="math-display">7.5</span>',en:'<span class="math-display">7.5</span>'},{ar:'<span class="math-display">3.33</span>',en:'<span class="math-display">3.33</span>'},{ar:'<span class="math-display">10</span>',en:'<span class="math-display">10</span>'},{ar:'<span class="math-display">9</span>',en:'<span class="math-display">9</span>'}],
+  correct:0, answer:{ar:'5/h = 8/12 ⇒ 8h = 60 ⇒ h = 7.5',en:'5/h = 8/12 ⇒ h = 7.5'} },
+{ q:{ar:'<strong>السؤال 8:</strong> مثلثان متشابهان بارتفاعين 6 و 10. إذا كان ضلع الأول 9 فالضلع المناظر في الثاني:',en:'<strong>Q8:</strong> Similar triangles with altitudes 6 and 10. First side 9; second corresponding side?'},
+  options:[{ar:'<span class="math-display">5.4</span>',en:'<span class="math-display">5.4</span>'},{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'},{ar:'<span class="math-display">15</span>',en:'<span class="math-display">15</span>'},{ar:'<span class="math-display">10</span>',en:'<span class="math-display">10</span>'}],
+  correct:2, answer:{ar:'6/10 = 9/x ⇒ 6x = 90 ⇒ x = 15',en:'6/10 = 9/x ⇒ x = 15'} },
+{ q:{ar:'<strong>السؤال 9:</strong> نسبة تشابه مثلثين 2:3 وارتفاع الأكبر 12. ما ارتفاع الأصغر؟',en:'<strong>Q9:</strong> Similarity ratio 2:3; larger altitude 12. Smaller altitude?'},
+  options:[{ar:'<span class="math-display">8</span>',en:'<span class="math-display">8</span>'},{ar:'<span class="math-display">18</span>',en:'<span class="math-display">18</span>'},{ar:'<span class="math-display">6</span>',en:'<span class="math-display">6</span>'},{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'}],
+  correct:0, answer:{ar:'h/12 = 2/3 ⇒ h = 8',en:'h/12 = 2/3 ⇒ h = 8'} },
+{ q:{ar:'<strong>السؤال 10:</strong> ارتفاعا مثلثين متشابهين 7 و 21. إذا كان ضلع الأول 5 فالضلع المناظر في الثاني:',en:'<strong>Q10:</strong> Altitudes of similar triangles are 7 and 21. First side 5; second side?'},
+  options:[{ar:'<span class="math-display">7</span>',en:'<span class="math-display">7</span>'},{ar:'<span class="math-display">35</span>',en:'<span class="math-display">35</span>'},{ar:'<span class="math-display">15</span>',en:'<span class="math-display">15</span>'},{ar:'<span class="math-display">3</span>',en:'<span class="math-display">3</span>'}],
+  correct:2, answer:{ar:'7/21 = 1/3 ⇒ الضلع الثاني = 5 × 3 = 15',en:'Ratio 1:3 ⇒ second side = 15'} }
+]},
+{ id:'s3', title:{ar:'🔹 القسم 3: منصفات الزوايا والأجزاء الأخرى (Q11-Q15)',en:'🔹 Section 3: Angle Bisectors & Other Parts (Q11-Q15)'}, questions:[
+{ q:{ar:'<strong>السؤال 11:</strong> مثلثان متشابهان: منصفا زاويتين متناظرتين طولا 4 و x، والضلعان المتناظران 6 و 9. جد x.',en:'<strong>Q11:</strong> Similar triangles: corresponding angle bisectors 4 and x; corresponding sides 6 and 9. Find x.'},
+  svg: svgGraphs.fig_bisect,
+  options:[{ar:'<span class="math-display">6</span>',en:'<span class="math-display">6</span>'},{ar:'<span class="math-display">13.5</span>',en:'<span class="math-display">13.5</span>'},{ar:'<span class="math-display">2.67</span>',en:'<span class="math-display">2.67</span>'},{ar:'<span class="math-display">9</span>',en:'<span class="math-display">9</span>'}],
+  correct:0, answer:{ar:'4/x = 6/9 ⇒ 6x = 36 ⇒ x = 6',en:'4/x = 6/9 ⇒ x = 6'} },
+{ q:{ar:'<strong>السؤال 12:</strong> نسبة تشابه مثلثين 5:7 ومنصف الزاوية في الأول 10. ما منصف الزاوية المتناظر في الثاني؟',en:'<strong>Q12:</strong> Ratio 5:7; first bisector 10. Second bisector?'},
+  options:[{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'},{ar:'<span class="math-display">14</span>',en:'<span class="math-display">14</span>'},{ar:'<span class="math-display">50/7</span>',en:'<span class="math-display">50/7</span>'},{ar:'<span class="math-display">17.5</span>',en:'<span class="math-display">17.5</span>'}],
+  correct:1, answer:{ar:'10/t = 5/7 ⇒ 5t = 70 ⇒ t = 14',en:'10/t = 5/7 ⇒ t = 14'} },
+{ q:{ar:'<strong>السؤال 13:</strong> ارتفاعا مثلثين متشابهين 3 و 4.5. ما نسبة التشابه (الأول:الثاني)؟',en:'<strong>Q13:</strong> Altitudes of similar triangles are 3 and 4.5. Ratio (first:second)?'},
+  options:[{ar:'<span class="math-display">2:3</span>',en:'<span class="math-display">2:3</span>'},{ar:'<span class="math-display">3:2</span>',en:'<span class="math-display">3:2</span>'},{ar:'<span class="math-display">4:9</span>',en:'<span class="math-display">4:9</span>'},{ar:'<span class="math-display">9:4</span>',en:'<span class="math-display">9:4</span>'}],
+  correct:0, answer:{ar:'3/4.5 = 2/3 ⇒ النسبة 2:3',en:'3/4.5 = 2/3'} },
+{ q:{ar:'<strong>السؤال 14:</strong> متوسطا مثلثين متشابهين 12 و 18، وضلع الأول 8. ما الضلع المناظر في الثاني؟',en:'<strong>Q14:</strong> Medians 12 and 18; first side 8. Second corresponding side?'},
+  options:[{ar:'<span class="math-display">5.33</span>',en:'<span class="math-display">5.33</span>'},{ar:'<span class="math-display">27</span>',en:'<span class="math-display">27</span>'},{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'},{ar:'<span class="math-display">18</span>',en:'<span class="math-display">18</span>'}],
+  correct:2, answer:{ar:'12/18 = 8/x ⇒ 12x = 144 ⇒ x = 12',en:'12/18 = 8/x ⇒ x = 12'} },
+{ q:{ar:'<strong>السؤال 15:</strong> في المثلثين المتشابهين، أي الأجزاء الآتية تتناسب مع الأضلاع المتناظرة؟',en:'<strong>Q15:</strong> In similar triangles, which parts are proportional to corresponding sides?'},
+  svg: svgGraphs.fig_rules,
+  options:[{ar:'الارتفاعات والمتوسطات ومنصفات الزوايا والمحيطات',en:'Altitudes, medians, bisectors, and perimeters'},{ar:'الارتفاعات فقط',en:'Altitudes only'},{ar:'المتوسطات فقط',en:'Medians only'},{ar:'المساحات',en:'Areas'}],
+  correct:0, answer:{ar:'كل الأجزاء الخطية (ارتفاعات، متوسطات، منصفات، محيطات) بنسبة k؛ المساحات بنسبة k²',en:'All linear parts scale by k; areas by k²'} }
+]},
+{ id:'s4', title:{ar:'🔹 القسم 4: المحيطات (Q16-Q20)',en:'🔹 Section 4: Perimeters (Q16-Q20)'}, questions:[
+{ q:{ar:'<strong>السؤال 16:</strong> نسبة تشابه مثلثين 2:5 ومحيط الأول 14. ما محيط الثاني؟',en:'<strong>Q16:</strong> Ratio 2:5; first perimeter 14. Second perimeter?'},
+  svg: svgGraphs.fig_perim,
+  options:[{ar:'<span class="math-display">35</span>',en:'<span class="math-display">35</span>'},{ar:'<span class="math-display">5.6</span>',en:'<span class="math-display">5.6</span>'},{ar:'<span class="math-display">25</span>',en:'<span class="math-display">25</span>'},{ar:'<span class="math-display">70</span>',en:'<span class="math-display">70</span>'}],
+  correct:0, answer:{ar:'14/P = 2/5 ⇒ 2P = 70 ⇒ P = 35',en:'14/P = 2/5 ⇒ P = 35'} },
+{ q:{ar:'<strong>السؤال 17:</strong> محيطا مثلثين متشابهين 24 و 36. إذا كان ضلع الأول 6 فالضلع المناظر في الثاني:',en:'<strong>Q17:</strong> Perimeters 24 and 36. First side 6; second corresponding side?'},
+  options:[{ar:'<span class="math-display">4</span>',en:'<span class="math-display">4</span>'},{ar:'<span class="math-display">9</span>',en:'<span class="math-display">9</span>'},{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'},{ar:'<span class="math-display">6</span>',en:'<span class="math-display">6</span>'}],
+  correct:1, answer:{ar:'24/36 = 2/3 ⇒ 6/x = 2/3 ⇒ x = 9',en:'6/x = 2/3 ⇒ x = 9'} },
+{ q:{ar:'<strong>السؤال 18:</strong> مثلث أضلاعه 3 و 4 و 5، ومثلث مشابه له بمعامل 4. ما محيط الثاني؟',en:'<strong>Q18:</strong> Triangle sides 3,4,5; similar triangle with scale 4. Second perimeter?'},
+  options:[{ar:'<span class="math-display">48</span>',en:'<span class="math-display">48</span>'},{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'},{ar:'<span class="math-display">36</span>',en:'<span class="math-display">36</span>'},{ar:'<span class="math-display">60</span>',en:'<span class="math-display">60</span>'}],
+  correct:0, answer:{ar:'محيط الأول 12 ⇒ الثاني 12 × 4 = 48',en:'12 × 4 = 48'} },
+{ q:{ar:'<strong>السؤال 19:</strong> نسبة محيطي مثلثين متشابهين تساوي دائماً:',en:'<strong>Q19:</strong> The ratio of perimeters of similar triangles always equals:'},
+  options:[{ar:'نسبة الأضلاع المتناظرة',en:'The ratio of corresponding sides'},{ar:'مربع نسبة الأضلاع',en:'The square of the side ratio'},{ar:'نصف نسبة الأضلاع',en:'Half the side ratio'},{ar:'نسبة المساحتين',en:'The area ratio'}],
+  correct:0, answer:{ar:'المحيط مجموع كميات خطية ⇒ نسبته k نفسها',en:'Perimeter is a sum of linear quantities ⇒ ratio k'} },
+{ q:{ar:'<strong>السؤال 20:</strong> محيطا مثلثين متشابهين 30 و 45، ومتوسط الأول 8. ما متوسط الثاني؟',en:'<strong>Q20:</strong> Perimeters 30 and 45; first median 8. Second median?'},
+  options:[{ar:'<span class="math-display">5.33</span>',en:'<span class="math-display">5.33</span>'},{ar:'<span class="math-display">18</span>',en:'<span class="math-display">18</span>'},{ar:'<span class="math-display">8</span>',en:'<span class="math-display">8</span>'},{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'}],
+  correct:3, answer:{ar:'30/45 = 2/3 ⇒ 8/m = 2/3 ⇒ m = 12',en:'8/m = 2/3 ⇒ m = 12'} }
+]},
+{ id:'s5', title:{ar:'🔹 القسم 5: المساحات (نسبة مربعة) (Q21-Q25)',en:'🔹 Section 5: Areas (Squared Ratio) (Q21-Q25)'}, questions:[
+{ q:{ar:'<strong>السؤال 21:</strong> نسبة تشابه مثلثين 2:3. ما نسبة مساحتيهما؟',en:'<strong>Q21:</strong> Similarity ratio 2:3. Area ratio?'},
+  svg: svgGraphs.fig_areas,
+  options:[{ar:'<span class="math-display">4:9</span>',en:'<span class="math-display">4:9</span>'},{ar:'<span class="math-display">2:3</span>',en:'<span class="math-display">2:3</span>'},{ar:'<span class="math-display">9:4</span>',en:'<span class="math-display">9:4</span>'},{ar:'<span class="math-display">8:27</span>',en:'<span class="math-display">8:27</span>'}],
+  correct:0, answer:{ar:'نسبة المساحتين = k² = 4/9',en:'Area ratio = k² = 4:9'} },
+{ q:{ar:'<strong>السؤال 22:</strong> نسبة مساحتي مثلثين متشابهين 25:64. ما نسبة ارتفاعيهما؟',en:'<strong>Q22:</strong> Area ratio 25:64. Altitude ratio?'},
+  options:[{ar:'<span class="math-display">25:64</span>',en:'<span class="math-display">25:64</span>'},{ar:'<span class="math-display">5:8</span>',en:'<span class="math-display">5:8</span>'},{ar:'<span class="math-display">8:5</span>',en:'<span class="math-display">8:5</span>'},{ar:'<span class="math-display">64:25</span>',en:'<span class="math-display">64:25</span>'}],
+  correct:1, answer:{ar:'نسبة الارتفاعين = √(25/64) = 5/8',en:'Altitude ratio = √(25/64) = 5:8'} },
+{ q:{ar:'<strong>السؤال 23:</strong> مثلثان متشابهان أضلاعهما المتناظرة 6 و 9. إذا كانت مساحة الأول 40 فمساحة الثاني:',en:'<strong>Q23:</strong> Similar triangles with sides 6 and 9. First area 40; second area?'},
+  options:[{ar:'<span class="math-display">90</span>',en:'<span class="math-display">90</span>'},{ar:'<span class="math-display">60</span>',en:'<span class="math-display">60</span>'},{ar:'<span class="math-display">26.7</span>',en:'<span class="math-display">26.7</span>'},{ar:'<span class="math-display">120</span>',en:'<span class="math-display">120</span>'}],
+  correct:0, answer:{ar:'40/A = 36/81 = 4/9 ⇒ A = 40 × 9/4 = 90',en:'40/A = 4/9 ⇒ A = 90'} },
+{ q:{ar:'<strong>السؤال 24:</strong> نسبة مساحتي مثلثين متشابهين 1:4. ما نسبة محيطيهما؟',en:'<strong>Q24:</strong> Area ratio 1:4. Perimeter ratio?'},
+  options:[{ar:'<span class="math-display">1:4</span>',en:'<span class="math-display">1:4</span>'},{ar:'<span class="math-display">1:2</span>',en:'<span class="math-display">1:2</span>'},{ar:'<span class="math-display">1:16</span>',en:'<span class="math-display">1:16</span>'},{ar:'<span class="math-display">4:1</span>',en:'<span class="math-display">4:1</span>'}],
+  correct:1, answer:{ar:'k = √(1/4) = 1/2 ⇒ المحيطان 1:2',en:'k = 1/2 ⇒ perimeters 1:2'} },
+{ q:{ar:'<strong>السؤال 25:</strong> ارتفاعا مثلثين متشابهين 5 و 15. ما نسبة مساحتيهما؟',en:'<strong>Q25:</strong> Altitudes 5 and 15. Area ratio?'},
+  options:[{ar:'<span class="math-display">1:9</span>',en:'<span class="math-display">1:9</span>'},{ar:'<span class="math-display">1:3</span>',en:'<span class="math-display">1:3</span>'},{ar:'<span class="math-display">3:1</span>',en:'<span class="math-display">3:1</span>'},{ar:'<span class="math-display">1:81</span>',en:'<span class="math-display">1:81</span>'}],
+  correct:0, answer:{ar:'k = 5/15 = 1/3 ⇒ k² = 1/9',en:'k = 1/3 ⇒ k² = 1:9'} }
+]},
+{ id:'s6', title:{ar:'🔹 القسم 6: تطبيقات ومسائل مركبة (Q26-Q30)',en:'🔹 Section 6: Applications & Mixed (Q26-Q30)'}, questions:[
+{ q:{ar:'<strong>السؤال 26:</strong> في مخطط، مثلثان متشابهان متوسطاهما 4 cm و 10 cm. إذا كان ضلع الأول 6 cm فالضلع المناظر في الثاني:',en:'<strong>Q26:</strong> On a blueprint, similar triangles with medians 4 cm and 10 cm. First side 6 cm; second side?'},
+  options:[{ar:'<span class="math-display">15 cm</span>',en:'<span class="math-display">15 cm</span>'},{ar:'<span class="math-display">2.4 cm</span>',en:'<span class="math-display">2.4 cm</span>'},{ar:'<span class="math-display">25 cm</span>',en:'<span class="math-display">25 cm</span>'},{ar:'<span class="math-display">12 cm</span>',en:'<span class="math-display">12 cm</span>'}],
+  correct:0, answer:{ar:'4/10 = 6/x ⇒ 4x = 60 ⇒ x = 15 cm',en:'4/10 = 6/x ⇒ x = 15'} },
+{ q:{ar:'<strong>السؤال 27:</strong> مثلثان متشابهان يمثلان شجرة وظلها: ارتفاعاهما 2 و h، والضلعان المتناظران (الظلال) 3 و 24. جد h.',en:'<strong>Q27:</strong> Similar triangles (tree & shadow): altitudes 2 and h; corresponding sides (shadows) 3 and 24. Find h.'},
+  options:[{ar:'<span class="math-display">4</span>',en:'<span class="math-display">4</span>'},{ar:'<span class="math-display">24</span>',en:'<span class="math-display">24</span>'},{ar:'<span class="math-display">16</span>',en:'<span class="math-display">16</span>'},{ar:'<span class="math-display">12</span>',en:'<span class="math-display">12</span>'}],
+  correct:2, answer:{ar:'2/h = 3/24 = 1/8 ⇒ h = 16',en:'2/h = 1/8 ⇒ h = 16'} },
+{ q:{ar:'<strong>السؤال 28:</strong> نسبة مساحتي مثلثين متشابهين 49:100 وارتفاع الأصغر 14. ما ارتفاع الأكبر؟',en:'<strong>Q28:</strong> Area ratio 49:100; smaller altitude 14. Larger altitude?'},
+  options:[{ar:'<span class="math-display">20</span>',en:'<span class="math-display">20</span>'},{ar:'<span class="math-display">9.8</span>',en:'<span class="math-display">9.8</span>'},{ar:'<span class="math-display">28</span>',en:'<span class="math-display">28</span>'},{ar:'<span class="math-display">14</span>',en:'<span class="math-display">14</span>'}],
+  correct:0, answer:{ar:'k = √(49/100) = 7/10 ⇒ 14/h = 7/10 ⇒ h = 20',en:'k = 7/10 ⇒ h = 20'} },
+{ q:{ar:'<strong>السؤال 29:</strong> محيطا مثلثين متشابهين 18 و 27 وارتفاع الأول 6. ما ارتفاع الثاني؟',en:'<strong>Q29:</strong> Perimeters 18 and 27; first altitude 6. Second altitude?'},
+  options:[{ar:'<span class="math-display">4</span>',en:'<span class="math-display">4</span>'},{ar:'<span class="math-display">13.5</span>',en:'<span class="math-display">13.5</span>'},{ar:'<span class="math-display">9</span>',en:'<span class="math-display">9</span>'},{ar:'<span class="math-display">6</span>',en:'<span class="math-display">6</span>'}],
+  correct:2, answer:{ar:'18/27 = 2/3 ⇒ 6/h = 2/3 ⇒ h = 9',en:'6/h = 2/3 ⇒ h = 9'} },
+{ q:{ar:'<strong>السؤال 30:</strong> أي النسب الآتية لا تساوي نسبة الأضلاع المتناظرة في مثلثين متشابهين؟',en:'<strong>Q30:</strong> Which ratio does NOT equal the ratio of corresponding sides in similar triangles?'},
+  options:[{ar:'نسبة المساحتين',en:'Area ratio'},{ar:'نسبة المحيطين',en:'Perimeter ratio'},{ar:'نسبة الارتفاعين المتناظرين',en:'Corresponding altitude ratio'},{ar:'نسبة المتوسطين المتناظرين',en:'Corresponding median ratio'}],
+  correct:0, answer:{ar:'نسبة المساحتين = k² وليس k؛ أما الباقي فكلها تساوي k',en:'Area ratio = k², not k; the others equal k'} }
+]}
+]};
+
+function shuffleArray(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r}
+function prepareShuffledExam(){rng=mulberry32(currentSeed);examData=JSON.parse(JSON.stringify(originalExamData));correctAnswersMap={};let g=0;examData.sections.forEach(s=>{s.questions=shuffleArray(s.questions);s.questions.forEach(q=>{const oc=q.options.map((o,i)=>({option:o,isCorrect:i===q.correct}));const sh=shuffleArray(oc);q.options=sh.map(o=>o.option);q.correct=sh.findIndex(o=>o.isCorrect);correctAnswersMap[g]=String.fromCharCode(97+q.correct);g++})})}
+function reshuffleExam(){if(confirm(currentLang==='ar'?'🔄 سيتم إنشاء أسئلة جديدة ومسح إجاباتك. هل أنت متأكد؟':'🔄 New questions will be generated. Are you sure?')){currentSeed=Date.now();timeRemaining=TOTAL_TIME;answersVisible=false;prepareShuffledExam();renderExam();saveState();alert(currentLang==='ar'?'🎲 تم تغيير الأسئلة! حظاً موفقاً! 🍀':'🎲 Questions changed! Good luck! 🍀');window.scrollTo({top:0,behavior:'smooth'})}}
+function setLanguage(lang){currentLang=lang;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.getElementById('btn-ar').classList.toggle('active',lang==='ar');document.getElementById('btn-en').classList.toggle('active',lang==='en');document.body.classList.toggle('en-mode',lang==='en');document.querySelectorAll('[data-ar]').forEach(el=>{el.textContent=el.getAttribute('data-'+lang)});document.querySelectorAll('[data-placeholder-ar]').forEach(el=>{el.placeholder=el.getAttribute('data-placeholder-'+lang)});renderExam();saveState(false)}
+function renderExam(){const container=document.getElementById('exam-content');const lbl={option:['a)','b)','c)','d)'],answer:currentLang==='ar'?'✅ الإجابة:':'✅ Answer:'};let html='',g=0;
+examData.sections.forEach((section,si)=>{const bc=['module-1','module-2','module-3','module-4','module-5','module-6'][si];html+='<section class="bg-white p-6 rounded-2xl shadow-lg border-2 border-rose-100"><div class="text-center mb-4"><span class="module-badge '+bc+'">'+section.title[currentLang]+'</span></div><ol class="space-y-4 text-sm">';
+section.questions.forEach(q=>{html+='<li class="border-r-4 border-rose-400 pr-4 py-2" id="q-'+g+'" style="border-right:4px solid #e11d48;padding-right:1rem;"><strong class="text-rose-700">'+(g+1)+'.</strong> '+q.q[currentLang]+'<br>';
+if(q.svg)html+='<div class="graph-container">'+q.svg+'</div>';
+q.options.forEach((opt,oi)=>{html+='<label class="cursor-pointer block mt-2 mr-4 hover:bg-rose-50 rounded-lg p-2 transition" style="margin-right:1rem;"><input type="radio" name="q'+g+'" value="'+String.fromCharCode(97+oi)+'" class="mr-2 ml-2"><span class="arabic-math">'+lbl.option[oi]+' '+opt[currentLang]+'</span></label>'});
+html+='<div class="answer-box text-green-700 mt-3 font-medium '+(answersVisible?'':'hidden')+' bg-green-50 rounded-lg p-3 border border-green-200">'+lbl.answer+' '+lbl.option[q.correct]+' <span class="arabic-math">'+q.options[q.correct][currentLang]+'</span><br><span class="text-sm text-green-700 mt-2 block arabic-math">'+q.answer[currentLang]+'</span></div></li>';g++});
+html+='</ol></section>'});
+container.innerHTML=html}
+function startTimer(){updateTimerDisplay();timerInterval=setInterval(()=>{timeRemaining--;updateTimerDisplay();if(timeRemaining%60===0)saveState(false);if(timeRemaining<=600)document.getElementById('timer').classList.add('timer-warning');if(timeRemaining<=0){clearInterval(timerInterval);alert(currentLang==='ar'?'⏰ انتهى الوقت!':"⏰ Time's up!");gradeExam()}},1000)}
+function updateTimerDisplay(){const m=Math.floor(timeRemaining/60),s=timeRemaining%60;document.getElementById('timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+function toggleAnswers(){answersVisible=!answersVisible;document.querySelectorAll('.answer-box').forEach(el=>el.classList.toggle('hidden',!answersVisible));saveState(false)}
+function gradeExam(){let cc=0;const ss=new Array(TOTAL_SECTIONS).fill(0);
+for(let i=0;i<TOTAL_QUESTIONS;i++){const sel=document.querySelector('input[name="q'+i+'"]:checked');const li=document.getElementById('q-'+i);if(li){const ok=sel&&sel.value===correctAnswersMap[i];if(ok){cc++;li.classList.add('correct');li.classList.remove('incorrect');ss[Math.floor(i/QUESTIONS_PER_SECTION)]++}else{li.classList.add('incorrect');li.classList.remove('correct')}}}
+const score=Math.round(cc/TOTAL_QUESTIONS*100);document.getElementById('res-total').textContent=score+' / 100';document.getElementById('res-name').textContent=document.getElementById('studentName').value||(currentLang==='ar'?'بطل':'Champion');document.getElementById('res-date').textContent=new Date().toLocaleDateString(currentLang==='ar'?'ar-AE':'en-US');
+const pc=document.getElementById('sections-performance');pc.innerHTML='';examData.sections.forEach((s,i)=>{pc.innerHTML+='<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-gray-700">'+s.title[currentLang]+'</span><span class="font-bold text-rose-700">'+ss[i]+'/'+QUESTIONS_PER_SECTION+'</span></div>'});
+const badge=document.getElementById('success-badge');document.getElementById('success-percent').textContent=score+'%';
+if(currentLang==='ar'){if(score>=90){badge.textContent='🌟 ممتاز جداً!';badge.className='success-badge grade-excellent'}else if(score>=75){badge.textContent='👏 ممتاز!';badge.className='success-badge grade-good'}else if(score>=50){badge.textContent='👍 جيد';badge.className='success-badge grade-pass'}else{badge.textContent='💪 حاول مرة أخرى';badge.className='success-badge grade-fail'}}
+else{if(score>=90){badge.textContent='🌟 Outstanding!';badge.className='success-badge grade-excellent'}else if(score>=75){badge.textContent='👏 Excellent!';badge.className='success-badge grade-good'}else if(score>=50){badge.textContent='👍 Good';badge.className='success-badge grade-pass'}else{badge.textContent='💪 Try Again';badge.className='success-badge grade-fail'}}
+document.getElementById('results-panel').classList.remove('hidden');document.getElementById('results-panel').scrollIntoView({behavior:'smooth'});if(timerInterval)clearInterval(timerInterval)}
+function sendResultsToEmail(){const btn=document.getElementById('sendEmailBtn'),status=document.getElementById('emailStatus');btn.disabled=true;btn.textContent=currentLang==='ar'?'⏳ جاري الإرسال...':'⏳ Sending...';
+const name=document.getElementById('studentName').value||'N/A',klass=document.getElementById('studentClass').value||'N/A',date=document.getElementById('examDate').value||new Date().toLocaleDateString(),score=document.getElementById('res-total').textContent,rate=document.getElementById('success-percent').textContent,badge=document.getElementById('success-badge').textContent;
+let qh='<div style="font-family:Arial;direction:rtl"><h2>📐 '+(currentLang==='ar'?'نتيجة امتحان أجزاء المثلثات المتشابهة - رياضيات 11 عام':'Similar Triangle Parts Exam - Grade 11')+'</h2><p><b>الاسم:</b> '+name+'</p><p><b>الشعبة:</b> '+klass+'</p><p><b>التاريخ:</b> '+date+'</p><p><b>الدرجة:</b> '+score+' ('+rate+')</p><p><b>التقدير:</b> '+badge+'</p><hr><table style="width:100%;border-collapse:collapse"><tr style="background:#e11d48;color:white"><th style="padding:8px;border:1px solid #ddd">#</th><th style="padding:8px;border:1px solid #ddd">السؤال</th><th style="padding:8px;border:1px solid #ddd">إجابة الطالب</th><th style="padding:8px;border:1px solid #ddd">الصحيحة</th><th style="padding:8px;border:1px solid #ddd">النتيجة</th></tr>';
+let g=0;examData.sections.forEach(sec=>{qh+='<tr style="background:#ffe4e6"><td colspan="5" style="padding:8px;font-weight:bold;border:1px solid #ddd">'+sec.title.ar+'</td></tr>';sec.questions.forEach(q=>{const sel=document.querySelector('input[name="q'+g+'"]:checked');const sv=sel?sel.value:null;const cv=correctAnswersMap[g];const ic=sv===cv;let sat=sv?q.options[sv.charCodeAt(0)-97][currentLang]:(currentLang==='ar'?'❌ لم يجب':'❌ No answer');const sac=ic?'#16a34a':'#dc2626';const cat=q.options[q.correct][currentLang];const rb=ic?'#f0fdf4':'#fef2f2';qh+='<tr style="background:'+rb+'"><td style="padding:8px;border:1px solid #ddd;text-align:center">'+(g+1)+'</td><td style="padding:8px;border:1px solid #ddd">'+q.q.ar.replace(/<[^>]+>/g,'').substring(0,70)+'...</td><td style="padding:8px;border:1px solid #ddd;color:'+sac+'">'+sat+'</td><td style="padding:8px;border:1px solid #ddd;color:#16a34a">'+cat+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center">'+(ic?'✅':'❌')+'</td></tr>';g++})});
+qh+='</table></div>';
+emailjs.send(SERVICE_ID,TEMPLATE_ID,{to_email:TARGET_EMAIL,student_name:name,student_class:klass,exam_date:date,total_score:score,success_rate:rate,grade:badge,answers_table:qh})
+.then(()=>{status.textContent=currentLang==='ar'?'✅ تم الإرسال بنجاح!':'✅ Sent successfully!';status.style.color='#16a34a';btn.textContent=currentLang==='ar'?'✓ تم':'✓ Sent';alert(currentLang==='ar'?'تم إرسال النتيجة للمعلم بنجاح!':'Result sent to teacher successfully!')})
+.catch(err=>{status.textContent=currentLang==='ar'?'❌ فشل الإرسال':'❌ Failed';status.style.color='#dc2626';btn.disabled=false;btn.textContent=currentLang==='ar'?'📧 حاول مرة أخرى':'📧 Try Again'});}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  const saved=loadState();
+  if(saved&&saved.seed){currentSeed=saved.seed;currentLang=saved.lang||'ar';timeRemaining=saved.timeRemaining!==undefined?saved.timeRemaining:TOTAL_TIME;answersVisible=saved.answersVisible||false}else{currentSeed=Date.now()}
+  document.getElementById('btn-ar').classList.toggle('active',currentLang==='ar');
+  document.getElementById('btn-en').classList.toggle('active',currentLang==='en');
+  document.body.classList.toggle('en-mode',currentLang==='en');
+  document.documentElement.lang=currentLang;document.documentElement.dir=currentLang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-ar]').forEach(el=>{el.textContent=el.getAttribute('data-'+currentLang)});
+  document.querySelectorAll('[data-placeholder-ar]').forEach(el=>{el.placeholder=el.getAttribute('data-placeholder-'+currentLang)});
+  prepareShuffledExam();renderExam();
+  if(saved){if(saved.studentName)document.getElementById('studentName').value=saved.studentName;if(saved.studentClass)document.getElementById('studentClass').value=saved.studentClass;if(saved.examDate)document.getElementById('examDate').value=saved.examDate;if(saved.answers)restoreAnswers(saved.answers)}
+  setupAnswerListeners();setupInputListeners();
+  document.getElementById('method-holder').innerHTML=svgGraphs.fig_rules;
+  startTimer();
+});
+window.addEventListener('beforeunload',()=>saveState(false));
+</script>
+</body>
+</html>
